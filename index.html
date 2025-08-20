@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <button onclick="play(1)">Rock</button>
+    <button onclick="play(2)">Paper</button>
+    <button onclick="play(3)">Scissors</button>
+
+    <p id="computer"></p>
+    <h2 id="result"></h2>
+
+    <script>
+        const moves = {1: "Rock", 2: "Paper", 3: "Scissors"};
+
+        function play(player) {
+            const comp = Math.floor(Math.random() * 3) + 1;
+            document.getElementById("computer").innerText = "Computer chose: " + moves[comp];
+
+            if (player === comp) {
+                document.getElementById("result").innerText = "It's a tie!";
+            } else if (
+                (player === 1 && comp === 3) ||
+                (player === 2 && comp === 1) ||
+                (player === 3 && comp === 2)
+            ) {
+                document.getElementById("result").innerText = "You win!";
+            } else {
+                document.getElementById("result").innerText = "Computer wins!";
+            }
+        }
+    </script>
+</body>
+</html>
