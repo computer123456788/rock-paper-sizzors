@@ -1,36 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    button {
+      font-size: 18px;
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Rock Paper Scissors</h1>
-    <button onclick="play(1)">Rock</button>
-    <button onclick="play(2)">Paper</button>
-    <button onclick="play(3)">Scissors</button>
+  <h1>Rock Paper Scissors</h1>
+  <button onclick="play(1)">Rock</button>
+  <button onclick="play(2)">Paper</button>
+  <button onclick="play(3)">Scissors</button>
 
-    <p id="computer"></p>
-    <h2 id="result"></h2>
+  <div id="result"></div>
+  <div id="score"></div>
 
-    <script>
-        const moves = {1: "Rock", 2: "Paper", 3: "Scissors"};
+  <script>
+    let wins = 0, loses = 0, ties = 0;
+    let players_picks = [1, 2, 3];
 
-        function play(player) {
-            const comp = Math.floor(Math.random() * 3) + 1;
-            document.getElementById("computer").innerText = "Computer chose: " + moves[comp];
+    function play(player) {
+      const play = players_picks[Math.floor(Math.random() * players_picks.length)];
+      let compMove = play === 1 ? "Paper" : play === 2 ? "Scissors" : "Rock";
 
-            if (player === comp) {
-                document.getElementById("result").innerText = "It's a tie!";
-            } else if (
-                (player === 1 && comp === 3) ||
-                (player === 2 && comp === 1) ||
-                (player === 3 && comp === 2)
-            ) {
-                document.getElementById("result").innerText = "You win!";
-            } else {
-                document.getElementById("result").innerText = "Computer wins!";
-            }
-        }
-    </script>
+      document.getElementById("result").innerHTML = "I play " + compMove;
+
+      if (player === play) {
+        document.getElementById("result").innerHTML += "<br>I win!";
+        loses++;
+      } else if ((player === 1 && play === 2) || (player === 2 && play === 3) || (player === 3 && play === 1)) {
+        document.getElementById("result").innerHTML += "<br>You win!";
+        wins++;
+      } else if ((player === 3 && play === 2) || (player === 1 && play === 3) || (player === 2 && play === 1)) {
+        document.getElementById("result").innerHTML += "<br>We tied!";
+        ties++;
+      } else {
+        document.getElementById("result").innerHTML += "<br>Error!";
+      }
+
+      players_picks.push(player);
+
+      let ratio = (wins + loses === 0) ? 100 : (wins / (wins + loses)) * 100;
+
+      document.getElementById("score").innerHTML =
+        "Win %: " + Math.floor(ratio) + "<br>" +
+        "Wins: " + wins + " | Losses: " + loses + " | Ties: " + ties;
+    }
+  </script>
 </body>
 </html>
